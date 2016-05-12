@@ -1,19 +1,11 @@
-from __future__ import absolute_import, print_function
-import sys
-import os.path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sublime, sublime_plugin
-import tweepy
-
-consumer_key=""
-consumer_secret=""
-access_token=""
-access_token_secret=""
+from twitterapicall import TwitterApiCall
 
 class ProductivityCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		ProductivityCommand.open_new_file(self, edit)
-		ProductivityCommand.print_tweets(self, edit)
+		ProductivityCommand.print_loading_message(self, edit)
+		ProductivityCommand.call_twitter_api(self, edit)
 
 	def open_new_file(self, edit):
 		current_window = self.view.window()
@@ -23,13 +15,38 @@ class ProductivityCommand(sublime_plugin.TextCommand):
 		active_view.set_name('TW.py')
 		active_view.set_syntax_file('Packages/Python/Python.sublime-syntax')
 
-	def print_tweets(self, edit):
+	def print_loading_message(self, edit):
 		current_window = self.view.window()
 		active_view = current_window.active_view()
-		auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-		auth.set_access_token(access_token, access_token_secret)
-		active_view.insert(edit, 0, 'class Twitter(): \n')
-		api = tweepy.API(auth)
-		public_tweets = api.home_timeline()
-		for tweet in public_tweets:
-			active_view.insert(edit, active_view.size(), '    #time: ' + str(tweet.created_at) + '\n    #retweeted: ' + str(tweet.retweet_count) + '\n    #favorites: ' + str(tweet.favorite_count) + '    \n    def ' + tweet.user.name.lower().replace(' ', '_') + '(handle = "@' + tweet.user.screen_name + '"): \n        text = "' + tweet.text + '"\n\n')
+		active_view.insert(edit, 0, 'Loading tweets...\n')
+
+	def call_twitter_api(self, edit):
+		thread = TwitterApiCall(5, self, edit)
+		thread.start()
+
+	def print_tweets(self, result):
+		add_class = True
+		for tweet in result:
+			self.view.run_command('tweet_printer', {"created_at" : str(tweet.created_at), 
+				"add_class" : add_class, "retweet_count" : str(tweet.retweet_count),
+				"favorite_count" : str(tweet.favorite_count),
+				"user_name": tweet.user.name, "screen_name" : tweet.user.screen_name,
+				"text" : tweet.text })
+			add_class = False
+
+class TweetPrinterCommand(sublime_plugin.TextCommand):
+	def run(self, edit, created_at, add_class, retweet_count, favorite_count, user_name, screen_name, text):
+		current_window = self.view.window()
+		active_view = current_window.active_view()
+		if add_class == True:
+			active_view.insert(edit, active_view.size(), 'class Twitter(): \n')
+		
+		active_view.insert(edit, active_view.size(), '    #time: ' + created_at + '\n    #retweeted: ' + retweet_count + '\n    #favorites: ' + favorite_count + '    \n    def ' + user_name.lower().replace(' ', '_') + '(handle = "@' + screen_name + '"): \n        text = "' + text + '"\n\n')
+		
+
+
+
+#todo: keep updating tweets if user leaves document open
+#todo: add auth settings against twitter
+#todo: add setting to choose what syntax should be used (python, c#... )
+
