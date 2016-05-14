@@ -43,10 +43,3 @@ class TweetPrinterCommand(sublime_plugin.TextCommand):
 		
 		active_view.insert(edit, active_view.size(), '    #time: ' + created_at + '\n    #retweeted: ' + retweet_count + '\n    #favorites: ' + favorite_count + '    \n    def ' + user_name.lower().replace(' ', '_') + '(handle = "@' + screen_name + '"): \n        text = "' + text + '"\n\n')
 		
-
-
-
-#todo: keep updating tweets if user leaves document open
-#todo: add auth settings against twitter
-#todo: add setting to choose what syntax should be used (python, c#... )
-
