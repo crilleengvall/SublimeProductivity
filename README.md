@@ -3,6 +3,8 @@ A plugin for sublime text that gets tweets from your twitter feed and displays t
 Support this open source repo by using
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ChristianEngvall&url=https://github.com/crilleengvall/SublimeProductivity&title=SublimeProductivity&language=&tags=github&category=software) 
 
+[Read more about the plugin and how to install it here ](http://www.christianengvall.se/sublime-text-productivity-plugin/ "Christianengvall.se")
+
 This plugin started as a joke between me and a colleague. We sit in an open office at work.
 I've always had my desk in a corner before, and no one could see whats on my computer monitors.
 One day this changed and i got a desk in the middle of the room, with my monitors facing a way so that all prying eyes could
