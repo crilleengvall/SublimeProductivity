@@ -12,4 +12,10 @@ a python class(that is trying to follow the PEP8) standard. This way you don't h
 
 Note: As said this is plugin does what i've said it does, but checking social medias at the place i works is not a problem. This plugin is created because i wanted to learn how to make one for sublime.
 
+##Gif:
+![Sublime productivity screenshot](http://www.christianengvall.se/wp-content/uploads/2016/05/Sublime-productivity-gif.gif)
+
+
+
+##High res screenshot:
 ![Sublime productivity screenshot](http://www.christianengvall.se/wp-content/uploads/2016/05/SublimeProductivity.png)
