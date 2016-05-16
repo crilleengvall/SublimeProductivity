@@ -1,5 +1,5 @@
 import sublime, sublime_plugin
-from twitterapicall import TwitterApiCall
+from .twitterapicall import TwitterApiCall
 
 class ProductivityCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
